@@ -29,8 +29,8 @@ export function Sidebar() {
     fetchGroups()
   }, [fetchGroups])
 
-  const handleLogout = async () => {
-    await logout()
+  const handleLogout = () => {
+    logout()
     router.push("/login")
   }
 
