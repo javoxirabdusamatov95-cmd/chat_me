@@ -11,7 +11,7 @@
 | --------------- | ------------------- | ------------------------ | -------------------- |
 | **Auth**        | ✅ `authApi`        | ✅ `/login`, `/register` | To'liq tayyor        |
 | **Users**       | ✅ `usersApi`       | ⬜ `/profile`            | API bor, sahifa yo'q |
-| **Groups**      | ✅ `groupsApi`      | ⬜ `/chat` (Sidebar)     | API bor, UI yo'q     |
+| **Groups**      | ❌ `groupsApi`      | ⬜ `/chat` (Sidebar)     | API yo'q, UI yo'q    |
 | **Messages**    | ⬜ `messagesApi`    | ⬜ `/chat/[id]`          | Hammasi siz yozasiz  |
 | **Invitations** | ⬜ `invitationsApi` | ⬜ `/chat/invitations`   | Hammasi siz yozasiz  |
 
@@ -61,7 +61,7 @@ frontend/
 │   ├── authStore.ts               ← ✅ To'liq
 │   └── chatStore.ts               ← ⬜ Faqat groups; messages TODO
 ├── types/index.ts                 ← ✅ Barcha TypeScript tiplari
-├── proxy.ts                       ← ⚠️  Middleware kodi bor, lekin ISHLAMAYDI
+├── proxy.ts                       ← ✅  Proxy ishlaydi
 └── middleware.ts                  ← ⚠️  Nofaol (izoh bor)
 ```
 
@@ -74,8 +74,7 @@ frontend/
 `proxy.ts` faylini oching. Unda to'g'ri middleware kodi bor, lekin **2 ta xato** bor:
 
 ```
-❌ Fayl nomi: proxy.ts        → ✅ Bo'lishi kerak: middleware.ts
-❌ Funksiya nomi: export function proxy    → ✅ Bo'lishi kerak: export function middleware
+❌ Funksiya nomi: export function proxy    → ✅ Bo'lishi kerak
 ```
 
 Next.js faqat `middleware.ts` (yoki `middleware.js`) nomli faylni o'qiydi. Boshqa nomli fayl — oddiy TypeScript modul, middleware emas.
