@@ -13,6 +13,9 @@ import type {
     MessageListResponse,
     MessageResponse,
 	MessageOut,
+    MessageUpdate,
+	ReactionSummary,
+	ReactionToggle,
 	InvitationResponse,
     InviteRequest,
 } from '@/types'
@@ -106,16 +109,31 @@ export const messagesApi = {
             .get<MessageListResponse>(`/groups/${groupId}/messages`, { params })
             .then(r => r.data),
 
-    // Xabar yuborish
+    // Xabar yuborish (reply_to_id bilan yoki bo'lmasdan)
     send: (groupId: number, data: MessageCreate) =>
         api
             .post<MessageResponse>(`/groups/${groupId}/messages`, data)
+            .then(r => r.data),
+
+    // Xabarni tahrirlash (faqat o'z xabari)
+    edit: (groupId: number, messageId: number, data: MessageUpdate) =>
+        api
+            .put<MessageResponse>(`/groups/${groupId}/messages/${messageId}`, data)
             .then(r => r.data),
 
     // Xabarni o'chirish (faqat o'z xabari yoki admin)
     delete: (groupId: number, messageId: number) =>
         api
             .delete<MessageOut>(`/groups/${groupId}/messages/${messageId}`)
+            .then(r => r.data),
+
+    // Reaksiya qo'yish/olib tashlash (toggle)
+    toggleReaction: (groupId: number, messageId: number, data: ReactionToggle) =>
+        api
+            .post<ReactionSummary[]>(
+                `/groups/${groupId}/messages/${messageId}/reactions`,
+                data,
+            )
             .then(r => r.data),
 }
 

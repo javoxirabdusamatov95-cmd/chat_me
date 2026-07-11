@@ -8,7 +8,7 @@ import { GroupSettingsDialog } from './GroupSettingsDialog'
 import { useChatStore } from '@/store/chatStore'
 import { useAuthStore } from '@/store/authStore'
 import { groupsApi } from '@/lib/api'
-import type { GroupDetailResponse, GroupMemberResponse } from '@/types'
+import type { GroupDetailResponse, GroupMemberResponse, MessageResponse } from '@/types'
 
 export function ChatArea({ groupId }: { groupId: number }) {
 	const router = useRouter()
@@ -17,6 +17,7 @@ export function ChatArea({ groupId }: { groupId: number }) {
 		useChatStore()
 
 	const [settingsOpen, setSettingsOpen] = useState(false)
+	const [replyingTo, setReplyingTo] = useState<MessageResponse | null>(null)
 
 	const [detail, setDetail] = useState<GroupDetailResponse | null>(null)
 	const [members, setMembers] = useState<GroupMemberResponse[]>([])
@@ -116,8 +117,10 @@ export function ChatArea({ groupId }: { groupId: number }) {
 						groupId={groupId}
 						detail={detail}
 						members={members}
-						onLeave={handleLeaveGroup}					onDelete={handleDeleteGroup}
-					canDelete={isOwner}						open={settingsOpen}
+						onLeave={handleLeaveGroup}
+						onDelete={handleDeleteGroup}
+						canDelete={isOwner}
+						open={settingsOpen}
 						onOpenChange={setSettingsOpen}
 						initialTab='general'
 					/>
@@ -144,13 +147,18 @@ export function ChatArea({ groupId }: { groupId: number }) {
 							message={msg}
 							groupId={groupId}
 							isAdmin={isAdmin}
+							onReply={setReplyingTo}
 						/>
 					))
 				)}
 			</div>
 
 			{/* Xabar yozish */}
-			<MessageInput groupId={groupId} />
+			<MessageInput
+				groupId={groupId}
+				replyingTo={replyingTo}
+				onCancelReply={() => setReplyingTo(null)}
+			/>
 		</div>
 	)
 }

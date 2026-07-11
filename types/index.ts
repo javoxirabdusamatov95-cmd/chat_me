@@ -67,8 +67,31 @@ export interface GroupMemberResponse {
 }
 
 // Message Types
+// Message Types
 export interface MessageCreate {
 	content: string
+	reply_to_id?: number | null
+}
+
+export interface MessageUpdate {
+	content: string
+}
+
+export interface ReplyToMessage {
+	id: number
+	sender_id: number
+	content: string
+	sender: UserResponse
+}
+
+export interface ReactionSummary {
+	emoji: string
+	count: number
+	user_ids: number[]
+}
+
+export interface ReactionToggle {
+	emoji: string
 }
 
 export interface MessageResponse {
@@ -76,8 +99,13 @@ export interface MessageResponse {
 	group_id: number
 	sender_id: number
 	content: string
+	reply_to_id: number | null
+	edited_at: string | null
+	is_edited: boolean
 	created_at: string
 	sender: UserResponse
+	reply_to: ReplyToMessage | null
+	reactions: ReactionSummary[]
 }
 
 export interface MessageListResponse {

@@ -13,10 +13,7 @@ export function IconRail() {
 
   useEffect(() => setMounted(true), [])
 
-  const isActive = (path: string) =>
-    path === "/chat"
-      ? pathname === "/chat" || /^\/chat\/\d+/.test(pathname)
-      : pathname === path
+  const isActive = (path: string) => pathname === path
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark")
@@ -43,19 +40,19 @@ export function IconRail() {
         <MessageSquare size={18} />
       </Link>
 
-      <button
-        type="button"
-        onClick={() => window?.dispatchEvent(new CustomEvent('focus-group-search'))}
-        className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-accent transition-colors"
-        aria-label="Guruhlarni qidirish"
+      <Link
+        href="/search"
+        className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
+          isActive("/search") ? "bg-primary text-primary-foreground" : "hover:bg-accent"
+        }`}
       >
         <Search size={18} />
-      </button>
+      </Link>
 
       <Link
-        href="/chat/invitations"
+        href="/invitations"
         className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
-          isActive("/chat/invitations") ? "bg-primary text-primary-foreground" : "hover:bg-accent"
+          isActive("/invitations") ? "bg-primary text-primary-foreground" : "hover:bg-accent"
         }`}
       >
         <Bell size={18} />
