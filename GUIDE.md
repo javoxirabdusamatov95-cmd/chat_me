@@ -10,9 +10,9 @@
 | Modul           | API (`lib/api.ts`)  | Sahifa                   | Holat                |
 | --------------- | ------------------- | ------------------------ | -------------------- |
 | **Auth**        | ✅ `authApi`        | ✅ `/login`, `/register` | To'liq tayyor        |
-| **Users**       | ✅ `usersApi`       | ⬜ `/profile`            | API bor, sahifa yo'q |
-| **Groups**      | ❌ `groupsApi`      | ⬜ `/chat` (Sidebar)     | API yo'q, UI yo'q    |
-| **Messages**    | ⬜ `messagesApi`    | ⬜ `/chat/[id]`          | Hammasi siz yozasiz  |
+| **Users**       | ✅ `usersApi`       | ✅ `/profile`            | API bor, sahifa bor |
+| **Groups**      | ✅ `groupsApi`      | ✅ `/chat` (Sidebar)     | API bor, UI bor    |
+| **Messages**    | ✅ `messagesApi`    | ✅ `/chat/[id]`          | Hammasi siz yozasiz  |
 | **Invitations** | ⬜ `invitationsApi` | ⬜ `/chat/invitations`   | Hammasi siz yozasiz  |
 
 ### Loyiha ishga tushirish
@@ -43,10 +43,10 @@ frontend/
 │   │   └── register/page.tsx      ← ✅ Register sahifasi
 │   ├── (main)/
 │   │   ├── layout.tsx             ← ✅ Client-side auth guard
-│   │   └── profile/page.tsx       ← ⬜ TODO: 2-qadam
+│   │   └── profile/page.tsx       ← ✅ TODO: 2-qadam
 │   ├── chat/
-│   │   ├── layout.tsx             ← ⬜ TODO: 3-qadam (Sidebar)
-│   │   ├── page.tsx               ← ⬜ TODO: 3-qadam
+│   │   ├── layout.tsx             ← ✅ TODO: 3-qadam (Sidebar)
+│   │   ├── page.tsx               ← ✅ TODO: 3-qadam
 │   │   ├── [groupId]/page.tsx     ← ⬜ TODO: 6-qadam
 │   │   └── invitations/page.tsx   ← ⬜ TODO: 7-qadam
 │   ├── layout.tsx                 ← ✅ Root layout

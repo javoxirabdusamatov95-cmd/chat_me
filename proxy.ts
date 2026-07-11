@@ -5,7 +5,7 @@ const protectedPaths = ['/chat', '/profile', '/invitations']
 // Public-only routes - redirect to /chat if logged in
 const authPaths = ['/login', '/register']
 
-export function proxy(request: NextRequest) {
+export function proxy (request: NextRequest) {
 	const { pathname } = request.nextUrl
 	const token =
 		request.cookies.get('access_token')?.value ||

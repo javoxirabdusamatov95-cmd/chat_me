@@ -1,89 +1,70 @@
-"use client"
-import { useState } from "react"
-import { Trash2 } from "lucide-react"
-import { UserAvatar } from "@/components/shared/UserAvatar"
-import { Button } from "@/components/ui/button"
-import { formatTime } from "@/lib/utils"
-import { useChatStore } from "@/store/chatStore"
-import { useAuthStore } from "@/store/authStore"
-import type { MessageResponse } from "@/types"
-import { cn } from "@/lib/utils"
+'use client'
+import { Trash2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { useChatStore } from '@/store/chatStore'
+import { useAuthStore } from '@/store/authStore'
+import type { MessageResponse } from '@/types'
 
-interface MessageItemProps {
-  message: MessageResponse
-  groupId: number
-  isAdmin?: boolean
+interface Props {
+	message: MessageResponse
+	groupId: number
+	isAdmin: boolean // guruh admini bo'lsa boshqalar xabarini ham o'chira oladi
 }
 
-export function MessageItem({ message, groupId, isAdmin }: MessageItemProps) {
-  const { user } = useAuthStore()
-  const { deleteMessage } = useChatStore()
-  const [isDeleting, setIsDeleting] = useState(false)
-  const [hovered, setHovered] = useState(false)
+export function MessageItem({ message, groupId, isAdmin }: Props) {
+	const { deleteMessage } = useChatStore()
+	const { user } = useAuthStore()
 
-  const isOwn = user?.id === message.sender_id
-  const canDelete = isOwn || isAdmin
+	const isOwn = message.sender_id === user?.id
+	const canDelete = isOwn || isAdmin
 
-  const handleDelete = async () => {
-    if (!confirm("Xabarni o'chirmoqchimisiz?")) return
-    setIsDeleting(true)
-    try {
-      await deleteMessage(groupId, message.id)
-    } finally {
-      setIsDeleting(false)
-    }
-  }
+	const handleDelete = async () => {
+		if (!confirm("Xabarni o'chirishni tasdiqlaysizmi?")) return
+		await deleteMessage(groupId, message.id)
+	}
 
-  return (
-    <div
-      className={cn("flex gap-2.5 group", isOwn ? "flex-row-reverse" : "flex-row")}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {!isOwn && (
-        <UserAvatar
-          username={message.sender.username}
-          avatar={message.sender.avatar}
-          id={message.sender.id}
-          size="sm"
-          className="mt-1 shrink-0"
-        />
-      )}
-      <div className={cn("max-w-[70%] flex flex-col gap-1", isOwn ? "items-end" : "items-start")}>
-        {!isOwn && (
-          <span className="text-xs font-medium text-muted-foreground px-1">
-            {message.sender.username}
-          </span>
-        )}
-        <div className={cn(
-          "relative rounded-2xl px-4 py-2.5 text-sm shadow-sm",
-          isOwn
-            ? "bg-primary text-primary-foreground rounded-tr-sm"
-            : "bg-muted text-foreground rounded-tl-sm"
-        )}>
-          <p className="whitespace-pre-wrap break-words leading-relaxed">{message.content}</p>
-          <p className={cn(
-            "text-[10px] mt-1 select-none",
-            isOwn ? "text-primary-foreground/70 text-right" : "text-muted-foreground text-right"
-          )}>
-            {formatTime(message.created_at)}
-          </p>
-          {canDelete && hovered && (
-            <Button
-              size="icon"
-              variant="ghost"
-              className={cn(
-                "absolute top-1 h-6 w-6 opacity-80 hover:opacity-100 hover:bg-destructive/20 hover:text-destructive",
-                isOwn ? "right-full mr-1" : "left-full ml-1"
-              )}
-              onClick={handleDelete}
-              disabled={isDeleting}
-            >
-              <Trash2 className="h-3 w-3" />
-            </Button>
-          )}
-        </div>
-      </div>
-    </div>
-  )
+	return (
+		<div className={`flex gap-3 group ${isOwn ? 'flex-row-reverse' : ''}`}>
+			{/* Avatar */}
+			<div className='h-8 w-8 rounded-lg bg-violet-500 flex items-center justify-center text-white text-xs font-bold shrink-0'>
+				{message.sender.username[0].toUpperCase()}
+			</div>
+
+			{/* Xabar */}
+			<div
+				className={`max-w-[70%] ${isOwn ? 'items-end' : 'items-start'} flex flex-col gap-1`}
+			>
+				{!isOwn && (
+					<p className='text-xs text-muted-foreground px-1'>
+						{message.sender.username}
+					</p>
+				)}
+				<div
+					className={`relative rounded-xl px-4 py-2.5 text-sm ${
+						isOwn
+							? 'bg-primary text-primary-foreground rounded-tr-sm'
+							: 'bg-muted rounded-tl-sm'
+					}`}
+				>
+					<p className='whitespace-pre-wrap break-words'>{message.content}</p>
+					{canDelete && (
+						<Button
+							size='icon'
+							variant='ghost'
+							className='absolute -top-2 -right-2 h-6 w-6 opacity-0 group-hover:opacity-100 bg-background border border-border shadow-sm'
+							onClick={handleDelete}
+						>
+							<Trash2 className='h-3 w-3' />
+						</Button>
+					)}
+				</div>
+				<p className='text-[10px] text-muted-foreground px-1'>
+					{new Date(message.created_at).toLocaleTimeString('uz-UZ', {
+						hour: '2-digit',
+						minute: '2-digit',
+					})}
+				</p>
+			</div>
+		</div>
+	)
 }
