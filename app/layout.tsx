@@ -3,10 +3,13 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-	title: 'ChatMe',
-	description: 'Guruh chat ilovasi ',
-}
-
+  metadataBase: new URL("https://bleachchat.uz"),
+  title: {
+    default: "Mening Do'konim",
+    template: "%s | Mening Do'konim",
+  },
+  description: "Eng sifatli mahsulotlar arzon narxda",
+};
 export default function RootLayout({
 	children,
 }: {
