@@ -5,10 +5,10 @@ import './globals.css'
 export const metadata: Metadata = {
   metadataBase: new URL("https://bleachchat.uz"),
   title: {
-    default: "Mening Do'konim",
-    template: "%s | Mening Do'konim",
+    default: "bleachchat.uz ",
+    template: "%s | bleachchat.uz ",
   },
-  description: "Eng sifatli mahsulotlar arzon narxda",
+  description: "Guruh chat ilovasi bleachchat.uz",
 };
 export default function RootLayout({
 	children,
